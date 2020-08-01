@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  application:
+    build:
+      context: ${PROJECT_PATH}/.
+      dockerfile: ${PROJECT_PATH}/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+  selenoid:
+    network_mode: bridge
+    image: aerokube/selenoid
+    volumes:
+      - "./browsers.json:/etc/selenoid/browsers.json"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/opt/selenium/video
+      - TZ=Europe/Amsterdam
+    command: ["./selenoid","-conf", "/etc/selenoid/browsers.json"]
+    ports:
+      - "4444:4444"
