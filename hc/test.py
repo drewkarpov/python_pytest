@@ -8,7 +8,7 @@ class BaseTestCase(TestCase):
     def setUp(self):
         super(BaseTestCase, self).setUp()
 
-        # Alice is a normal user for tests. Alice has team access enabled.
+        # Alice is a normal user for test_framework. Alice has team access enabled.
         self.alice = User(username="alice", email="alice@example.org")
         self.alice.set_password("password")
         self.alice.save()
