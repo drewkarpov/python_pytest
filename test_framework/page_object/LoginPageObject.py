@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+import allure
 from selenium.webdriver.common.by import By
 
 from test_framework.helpers.BrowserApi import BrowserApi
@@ -22,6 +23,7 @@ class LoginPageObject(BrowserApi):
         super().__init__(driver)
 
     def login(self, account: Account):
-        self.type(locator=LoginPageSelector.LOGIN_FIELD, send_value=account.email)
-        self.type(locator=LoginPageSelector.PASSWORD_FIELD, send_value=account.password)
-        self.click(locator=LoginPageSelector.SUBMIT_BUTTON)
+        with allure.step(f"логинимся под эмэйлом {account.email}"):
+            self._type(locator=LoginPageSelector.LOGIN_FIELD, send_value=account.email)
+            self._type(locator=LoginPageSelector.PASSWORD_FIELD, send_value=account.password)
+            self._click(locator=LoginPageSelector.SUBMIT_BUTTON)

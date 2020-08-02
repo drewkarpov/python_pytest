@@ -1,8 +1,9 @@
 PROJECT_PATH ?= $(shell pwd)
-HOST ?= $(shell ifconfig | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}')
+HOST ?= $(shell ipconfig getifaddr en0)
 
 run_application:
 	make run_selenoid
+	make run_allure
 	PROJECT_PATH=$(PROJECT_PATH) docker-compose stop application
 	PROJECT_PATH=$(PROJECT_PATH) docker-compose up --build -d application
 
@@ -10,6 +11,11 @@ run_selenoid:
 	PROJECT_PATH=$(PROJECT_PATH) docker-compose stop selenoid
 	PROJECT_PATH=$(PROJECT_PATH) docker-compose up --build -d selenoid
 
+run_allure:
+	PROJECT_PATH=$(PROJECT_PATH) docker-compose stop allure
+	PROJECT_PATH=$(PROJECT_PATH) docker-compose up -d allure
+
 run_tests:
 	make run_application
-	HOST=$(HOST) pytest test_framework/tests
+	flake8 --ignore=E501,W293,E731,W605,F405,F403,E402 test_framework
+	HOST=$(HOST) pytest test_framework/tests --alluredir=allure-results

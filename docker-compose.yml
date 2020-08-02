@@ -17,3 +17,13 @@ services:
     command: ["./selenoid","-conf", "/etc/selenoid/browsers.json"]
     ports:
       - "4444:4444"
+  allure:
+    image: "frankescobar/allure-docker-service"
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 1
+      KEEP_HISTORY: "FALSE"
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./allure-reports:/app/default-reports
