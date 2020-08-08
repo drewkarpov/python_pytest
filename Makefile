@@ -1,5 +1,4 @@
 PROJECT_PATH ?= $(shell pwd)
-HOST ?= $(shell ipconfig getifaddr en0)
 
 run_application:
 	make run_selenoid
