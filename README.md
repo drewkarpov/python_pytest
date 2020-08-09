@@ -31,7 +31,7 @@
 
 
 host app : http://localhost:8000
-host allure : http://localhost:8085
+host allure : http://localhost:8085/index.html
         
 
 
