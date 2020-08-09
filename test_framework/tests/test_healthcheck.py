@@ -21,3 +21,13 @@ def test_open_browser_login(browser):
 
     with allure.step("проверяем количество чеков"):
         assert ChecksPageObject(browser).get_check_row_count() == 2
+
+
+@allure.feature('Checks')
+@allure.title('проверка отображения сообщения об ошибке в форме логина')
+def test_displayed_error_message_after_input_incorrect_value(browser):
+    login_page = LoginPageObject(browser)
+    login_page.login(Account(email="example@mail.ru", password="1111111"))
+
+    with allure.step("проверяем сообщение об ошибке"):
+        assert login_page.get_error_message() == "Incorrect email or password."

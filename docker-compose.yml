@@ -8,6 +8,7 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - 8000:8000
+
   selenoid:
     network_mode: bridge
     image: aerokube/selenoid
@@ -17,6 +18,7 @@ services:
     command: ["./selenoid","-conf", "/etc/selenoid/browsers.json"]
     ports:
       - "4444:4444"
+
   allure:
     image: "frankescobar/allure-docker-service"
     environment:
@@ -25,5 +27,12 @@ services:
     ports:
       - "5050:5050"
     volumes:
-      - ./allure-results:/app/allure-results
-      - ./allure-reports:/app/default-reports
+      - ./allure/allure-results:/app/allure-results
+      - ./allure/allure-reports:/app/default-reports
+
+  allure_report:
+    build:
+      context: ${PROJECT_PATH}/allure/.
+      dockerfile: ${PROJECT_PATH}/allure/Dockerfile
+    ports:
+      - 8085:80

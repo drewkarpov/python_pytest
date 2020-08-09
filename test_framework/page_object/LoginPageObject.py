@@ -10,6 +10,7 @@ class LoginPageSelector:
     LOGIN_FIELD = (By.XPATH, "//*[@id='login-form']//*[@name='email']")
     PASSWORD_FIELD = (By.XPATH, "//*[@id='login-form']//*[@name='password']")
     SUBMIT_BUTTON = (By.XPATH, "//*[@id='login-form']//button")
+    ERROR_MESSAGE = (By.XPATH, "//*[@id='login-form']//*[@class='text-danger']")
 
 
 @dataclass
@@ -27,3 +28,7 @@ class LoginPageObject(BrowserApi):
             self._type(locator=LoginPageSelector.LOGIN_FIELD, send_value=account.email)
             self._type(locator=LoginPageSelector.PASSWORD_FIELD, send_value=account.password)
             self._click(locator=LoginPageSelector.SUBMIT_BUTTON)
+
+    def get_error_message(self):
+        with allure.step("получаем текст ошибки"):
+            return self._get_element_text(locator=LoginPageSelector.ERROR_MESSAGE)
