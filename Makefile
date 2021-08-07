@@ -1,8 +1,8 @@
 PROJECT_PATH ?= $(shell pwd)
 
 run_application:
-	make run_selenoid
-	make run_allure
+	#make run_selenoid
+	#make run_allure
 	PROJECT_PATH=$(PROJECT_PATH) docker-compose stop application
 	PROJECT_PATH=$(PROJECT_PATH) docker-compose up --build -d application
 
@@ -23,3 +23,7 @@ run_tests:
 hosting_allure_report:
 	PROJECT_PATH=$(PROJECT_PATH) docker-compose stop allure_report
 	PROJECT_PATH=$(PROJECT_PATH) docker-compose up --build -d allure_report
+
+run_single_application:
+	PROJECT_PATH=$(PROJECT_PATH) docker-compose stop application
+	PROJECT_PATH=$(PROJECT_PATH) docker-compose up --build  application
